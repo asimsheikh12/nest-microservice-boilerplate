@@ -1,4 +1,3 @@
-// apps/api-gateway/src/app/app.service.ts
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import {
   ClientProxy,
@@ -16,15 +15,13 @@ export class AppService implements OnModuleInit {
       options: {
         urls: ['amqp://localhost:5672'],
         queue: 'auth_queue',
-        queueOptions: {
-          durable: false,
-        },
+        queueOptions: { durable: false },
       },
     });
   }
 
-  async sendAuthMessage(data: any) {
-    return this.client.send('auth_message', data).toPromise();
+  sendMessage(pattern: string, data: any) {
+    return this.client.send(pattern, data).toPromise();
   }
 
   getData() {

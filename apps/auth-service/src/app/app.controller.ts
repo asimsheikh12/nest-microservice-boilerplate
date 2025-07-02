@@ -1,12 +1,18 @@
-// apps/auth-service/src/app/app.controller.ts
-import { Controller } from '@nestjs/common';
-import { MessagePattern } from '@nestjs/microservices';
+import { Body, Controller, Post } from '@nestjs/common';
+import { RegisterDto, LoginDto } from '@shared/dto';
+import { AuthService } from './app.service';
 
 @Controller()
-export class AppController {
-  @MessagePattern('auth_message')
-  handleAuth(data: any) {
-    console.log('Received:', data);
-    return { status: 'ok', user: data };
+export class AuthController {
+  constructor(private readonly authService: AuthService) {}
+
+  @Post('register')
+  register(@Body() dto: RegisterDto) {
+    return this.authService.register(dto);
+  }
+
+  @Post('login')
+  login(@Body() dto: LoginDto) {
+    return this.authService.login(dto);
   }
 }
